@@ -1,0 +1,4 @@
+Django>=5.2,<5.3  # MySQL 8.0 지원 (Django 6.x는 MySQL 8.4 이상 필요)
+PyMySQL>=1.1
+cryptography
+python-dotenv

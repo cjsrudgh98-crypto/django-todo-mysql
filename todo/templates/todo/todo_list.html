@@ -1,0 +1,28 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}할 일 목록{% endblock %}
+
+{% block content %}
+<h1>할 일 목록</h1>
+<p><a class="btn" href="{% url 'todo:create' %}">+ 새 할 일</a></p>
+
+<ul class="todo-list">
+    {% for todo in todos %}
+        <li class="todo-item{% if todo.is_completed %} completed{% endif %}">
+            <form method="post" action="{% url 'todo:toggle' todo.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="check-btn" title="완료 상태 변경">{% if todo.is_completed %}✓{% endif %}</button>
+            </form>
+            <div class="body">
+                <div class="title">{{ todo.title }}</div>
+                {% if todo.content %}<div class="content">{{ todo.content }}</div>{% endif %}
+                <div class="meta">{{ todo.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+            <a class="btn btn-gray" href="{% url 'todo:update' todo.pk %}">수정</a>
+            <a class="btn btn-red" href="{% url 'todo:delete' todo.pk %}">삭제</a>
+        </li>
+    {% empty %}
+        <li>등록된 할 일이 없습니다.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
